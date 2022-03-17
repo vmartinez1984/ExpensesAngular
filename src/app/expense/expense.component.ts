@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
 import { Category } from '../category/category.model';
 import { CategoryService } from '../category/category.service';
 import { PeriodService } from '../period/period.service';
@@ -59,13 +60,15 @@ export class ExpenseComponent implements OnInit {
   }
 
   getExpenses() {
-    this.expenseService.get(this.periodId).subscribe(data => {
+    this.awaitMoment();
+    this.expenseService.get(this.periodId).subscribe(data => {      
       console.log(data);
       this.expenses = data;
       this.total = 0;
       this.expenses.forEach((item) => {
         this.total += item.amount;
       });
+      Swal.close();
     });
   }
 
@@ -83,11 +86,16 @@ export class ExpenseComponent implements OnInit {
 
   isValidate(): boolean {
     if (this.expense.name == '') {
-      alert('Anote el nombre');
+      Swal.fire('Datos no validos', 'Anote un nombre valido', 'info');
+      //document.getElementById("name")?.focus();
       return false;
     }
-    if (Number(this.expense.amount) < 0) {
-      alert('Anote una cantidad valida');
+    if (Number(this.expense.amount) < 1) {
+      Swal.fire('Datos no validos', 'Anote una cantidad valida', 'info');
+      return false;
+    }
+    if(this.expense.categoryId == 0){
+      Swal.fire('Datos no validos', 'Seleccione una categoria', 'info');
       return false;
     }
     return true;
@@ -127,10 +135,46 @@ export class ExpenseComponent implements OnInit {
     let label: string;
 
     label = '¿Desea borrar' + expense.name + ' de ' + expense.amount + ' ?';
-    if (window.confirm(label)) {
-      this.expenseService.delete(expense.id).subscribe((response) => {
-        this.getExpenses();
-      });
-    }
+    // if (window.confirm(label)) {
+    //   this.expenseService.delete(expense.id).subscribe((response) => {
+    //     this.getExpenses();
+    //   });
+    // }
+    Swal.fire({
+      title: label,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.expenseService.delete(expense.id).subscribe(
+          (response) => {
+            this.getExpenses();
+          },
+          (error) => {
+            console.log(error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Ah ocurrido un error!',
+              footer: 'Intente nuevemente',
+            });
+          }
+        );
+      }
+    });
   }
+
+  awaitMoment() {
+    Swal.fire({
+      icon: 'info',
+      title: 'Un momento por favor...',
+      allowOutsideClick: false,
+      showConfirmButton: false,
+    });
+  }
+
 }
