@@ -1,0 +1,47 @@
+<div class="container">
+  <h2 class="text-info">Categorias</h2>
+  <form>
+    <input type="hidden" name="id" id="id" [(ngModel)]="category.id" />
+    <div class="row">
+      <div class="col">
+        <input
+          type="text"
+          required
+          maxlength="20"
+          name="name"
+          id="name"
+          [(ngModel)]="category.name"
+          class="form-control"
+          autofocus
+        />
+      </div>
+      <div class="col">
+        <button (click)="add()" class="btn btn-success">Agregar</button>
+      </div>
+      <div class="col">
+        <button (click)="cancel()" class="btn btn-secondary">Cancelar</button>
+      </div>
+    </div>
+  </form>
+  <hr />
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let category of categories">
+        <td>{{ category.name }}</td>
+        <td>
+            <button (click)="edit(category.id, category.name)" class="btn btn-warning">Editar</button>            
+        </td>
+        <td>
+            <button (click)="delete(category.id, category.name)" class="btn btn-danger">Borrar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

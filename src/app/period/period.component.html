@@ -1,0 +1,76 @@
+<div class="container">
+    <h2 class="text-info">Periodos</h2>
+  <form>
+    <input type="hidden" id="id" name="id" [(ngModel)]="period.id" />
+    <div class="row">
+      <div class="col">
+        <input
+          type="text"
+          name="name"
+          id="name"
+          [(ngModel)]="period.name"
+          class="form-control"
+          placeholder="Nombre"
+        />
+      </div>
+      <div class="col">
+        <input
+          type="date"
+          name="dateStart"
+          id="dateStart"
+          [(ngModel)]="period.dateStart"
+          class="form-control"
+          placeholder="Fecha inicio"
+        />
+      </div>
+      <div class="col">
+        <input
+          type="date"
+          name="dateStop"
+          id="dateStop"
+          [(ngModel)]="period.dateStop"
+          class="form-control"
+          placeholder="Fecha fin"
+        />
+      </div>
+      <div class="col">
+        <button class="btn btn-success" (click)="add()">Guardar</button>
+      </div>
+      <div class="col">
+        <button class="btn btn-secondary" (click)="cancel()">Cancelar</button>
+      </div>
+    </div>
+  </form>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Fecha inicio</th>
+        <th>Fecha fin</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let period of periods">
+        <td>{{ period.name }}</td>
+        <td>{{ period.dateStart | date }}</td>
+        <td>{{ period.dateStop | date }}</td>
+        <td>
+          <button class="btn btn-warning" (click)="edit(period.id)">
+            Editar
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-danger" (click)="delete(period)">
+            Borrar
+          </button>
+        </td>
+        <td>
+          <a href="/Periods/Details/{{period.id}}" class="btn btn-primary">Detalles</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

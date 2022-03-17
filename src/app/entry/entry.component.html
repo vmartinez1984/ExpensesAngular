@@ -1,0 +1,72 @@
+<div class="container">
+  <h2 class="text-success">Entradas</h2>
+  <form>
+    <input type="hidden" name="id" id="id" [(ngModel)]="entry.id" />
+    <input
+      type="hidden"
+      name="periodId"
+      id="periodId"
+      [(ngModel)]="entry.periodId"
+    />
+    <div class="row">
+      <div class="col">
+        <input
+          type="text"
+          name="name"
+          id="name"
+          placeholder="Nombre"
+          [(ngModel)]="entry.name"
+          class="form-control"
+        />
+      </div>
+      <div class="col">
+        <input
+          type="number"
+          name="amount"
+          id="amount"
+          placeholder="Cantidad"
+          [(ngModel)]="entry.amount"
+          class="form-control"
+        />
+      </div>
+      <div class="col">
+        <button (click)="add()" class="btn btn-success">Guardar</button>
+      </div>
+      <div class="col">
+        <button (click)="cancel()" class="btn btn-secondary">Cancelar</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="container mt-5">
+  <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Fecha</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let entry of entries">
+        <td>{{ entry.name }}</td>
+        <td>{{ entry.amount | currency }}</td>
+        <td>{{ entry.dateRegister | date}}</td>
+        <td>
+          <button (click)="edit(entry.id)" class="btn btn-warning">
+            Editar
+          </button>  
+          <button (click)="delete(entry)" class="btn btn-danger">Borrar</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Total</td>
+        <td>{{ total | currency }}</td>
+        <td></td>
+        <td></td> 
+      </tr>
+    </tbody>
+  </table>
+</div>
