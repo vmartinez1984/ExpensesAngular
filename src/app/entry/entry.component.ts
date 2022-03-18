@@ -32,11 +32,11 @@ export class EntryComponent implements OnInit {
     let id;
 
     id = this.route.snapshot.paramMap.get('id');
-    console.log(id);
-    if (id == '' || id == null) {
+    //console.log(id);
+    if (id == '' || id == null || id == undefined) {
       this.periodService.getActive().subscribe((response) => {
         this.periodId = response.id;
-        console.log(this.periodId);
+        //console.log(this.periodId);
         this.get();
       });
     } else {

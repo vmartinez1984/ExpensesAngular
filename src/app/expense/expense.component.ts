@@ -15,6 +15,7 @@ import { ExpenseService } from './expense.service';
 export class ExpenseComponent implements OnInit {
   categories: Category[] = [];
   periodId: number = 0;
+  balance: number;
   expenses: Expense[] = [];
   expense: Expense;
   total: number;
@@ -39,11 +40,12 @@ export class ExpenseComponent implements OnInit {
     let id;
 
     id = this.route.snapshot.paramMap.get('id');
-    console.log(id);
+    //console.log(id);
     if (id == '' || id == null) {
      this.periodService.getActive().subscribe((response) => {
         this.periodId = response.id;
-        console.log(this.periodId);
+        this.balance = response.balance;
+        //console.log(this.periodId);
         this.getExpenses();
       });
     } else {
@@ -62,7 +64,7 @@ export class ExpenseComponent implements OnInit {
   getExpenses() {
     this.awaitMoment();
     this.expenseService.get(this.periodId).subscribe(data => {      
-      console.log(data);
+      //console.log(data);
       this.expenses = data;
       this.total = 0;
       this.expenses.forEach((item) => {
@@ -76,7 +78,7 @@ export class ExpenseComponent implements OnInit {
     this.expense.periodId = this.periodId;
     if (this.isValidate()) {
       if (this.expense.id == null || this.expense.id == 0) {
-        console.log('Save');
+        //console.log('Save');
         this.save(this.expense);
       } else {
         this.update(this.expense);
@@ -103,13 +105,15 @@ export class ExpenseComponent implements OnInit {
 
   save(expense: Expense) {
     this.expenseService.add(expense).subscribe((response) => {
-      this.getExpenses();
+      this.assignamentPeriod();
+      this.cancel();
     });
   }
 
   update(entry: Expense) {
     this.expenseService.update(entry).subscribe((response) => {
-      this.getExpenses();
+      this.assignamentPeriod();
+      this.cancel();
     });
   }
 

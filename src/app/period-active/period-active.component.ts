@@ -8,6 +8,7 @@ import { PeriodActiveService } from './period-active.service';
 })
 export class PeriodActiveComponent implements OnInit {
   periodId: number;
+  balance: number;
 
   constructor(private service: PeriodActiveService) {
     //this.periodId = 0;
@@ -15,6 +16,7 @@ export class PeriodActiveComponent implements OnInit {
       (data) => {
         //console.log(data);
         this.periodId = data.id;
+        this.balance = data.balance;
         //console.log(this.periodId);
       },
       (error) => {
