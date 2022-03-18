@@ -1,12 +1,17 @@
 <div class="container">
-  <hr/>
+  <hr />
   <h2 class="text-danger">Gastos</h2>
 
   <form>
-    <input name="id" id="id" type="hidden"  [(ngModel)]="expense.id" />
-    <input name="periodId" id="periodId" type="hidden" [(ngModel)]="expense.periodId"/>
+    <input name="id" id="id" type="hidden" [(ngModel)]="expense.id" />
+    <input
+      name="periodId"
+      id="periodId"
+      type="hidden"
+      [(ngModel)]="expense.periodId"
+    />
     <div class="row">
-      <div class="col">
+      <div class="col-md-3">
         <input
           name="name"
           id="name"
@@ -17,75 +22,92 @@
         />
       </div>
 
-      <div class="col">
-
+      <div class="col-md-3">
         <input
-        name="amount"
-        id="amount"
-        type="number"
-        placeholder="Cantidad"
-        [(ngModel)]="expense.amount"
-        class="form-control"
+          name="amount"
+          id="amount"
+          type="number"
+          placeholder="Cantidad"
+          [(ngModel)]="expense.amount"
+          class="form-control"
         />
       </div>
 
-      <div class="col">        
+      <div class="col-md-3">
         <select
-        name="categoyId"
-        id="categoryId"
-        [(ngModel)]="expense.categoryId"
-        class="form-control"
+          name="categoyId"
+          id="categoryId"
+          [(ngModel)]="expense.categoryId"
+          class="form-select"
         >
-        <option value="0">Seleccione</option>
-        <option *ngFor="let category of categories" value="{{ category.id }}">
-          {{ category.name }}
-        </option>
-      </select>
-    </div>
+          <option value="0">Seleccione</option>
+          <option *ngFor="let category of categories" value="{{ category.id }}">
+            {{ category.name }}
+          </option>
+        </select>
+      </div>
 
-    <div class="col">
-      <button (click)="add()" class="btn btn-danger">Guardar</button>
-    </div>
-    
-    <div class="col">
-      <button (click)="cancel()" class="btn btn-secondary">Cancelar</button>
-    </div>
+      <div class="col">
+        <button (click)="add()" class="btn btn-danger">Guardar</button>
+      </div>
 
+      <div class="col">
+        <button (click)="cancel()" class="btn btn-secondary">Cancelar</button>
+      </div>
     </div>
   </form>
 </div>
 
 <div class="container mt-5">
-  <table class="table table-striped">
-    <thead>
-      <tr>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
           <th>Nombre</th>
           <th>Cantidad</th>
-          <th>Categoria</th>
-          <th>Fecha</th>
           <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let expense of expenses">
-        <td>{{ expense.name }}</td>
-        <td>{{ expense.amount | currency }}</td>       
-        <td>{{ expense.categoryName }}</td>       
-        <td>{{ expense.dateRegister | date }}</td>       
-        <td>
-          <button (click)="edit(expense.id)" class="btn btn-warning">
-            Editar
-          </button>
-          <button (click)="delete(expense)" class="btn btn-danger">Borrar</button>
-        </td>
-    </tr>
-    <tr>
-      <td>Total</td>
-      <td>{{ total | currency }}</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </tbody>
-  </table>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Total</td>
+          <td>{{ total | currency }}</td>
+          <td></td>
+        </tr>
+        <tr *ngFor="let expense of expenses">
+          <td>
+            <div class="row">
+              <div class="col-md-4">
+                {{ expense.name }}
+              </div>
+              <div class="col-md-4">
+                <span class="text-info">
+                  {{ expense.categoryName }}
+                </span>
+              </div>
+              <div class="col-md-4">
+                <span class="text-info">
+                  {{ expense.dateRegister | date }}
+                </span>
+              </div>
+            </div>
+          </td>
+          <td>{{ expense.amount | currency }}</td>
+          <td>
+            <button (click)="edit(expense.id)" class="btn btn-warning">
+              Editar
+            </button>
+            <button (click)="delete(expense)" class="btn btn-danger">
+              Borrar
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>Total</td>
+          <td>{{ total | currency }}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
